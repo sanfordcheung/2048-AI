@@ -57,8 +57,18 @@ void rotate(unsigned long int *game_board);
 void reverse(int *value);
 /* Return the row of index */
 unsigned int get_row(unsigned long int game_board, unsigned long int index);
+/* Simply calculations */
+unsigned int get_row_0(unsigned long int game_board);
+unsigned int get_row_1(unsigned long int game_board);
+unsigned int get_row_2(unsigned long int game_board);
+unsigned int get_row_3(unsigned long int game_board);
 /* Return the column of index */
 unsigned int get_column(unsigned long int game_board, unsigned long int index);
+/* Simply calculations */
+unsigned int get_column_0(unsigned long int game_board);
+unsigned int get_column_1(unsigned long int game_board);
+unsigned int get_column_2(unsigned long int game_board);
+unsigned int get_column_3(unsigned long int game_board);
 /* Return the block of row i and column j */
 unsigned char get_block(unsigned long int game_board, unsigned long int i, unsigned long int j);
 

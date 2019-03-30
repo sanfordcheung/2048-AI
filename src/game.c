@@ -280,10 +280,35 @@ inline void set_block(unsigned long int* game_board, unsigned long int i, unsign
 inline unsigned int get_row(unsigned long int game_board, unsigned long int index) {
     return ((game_board >> (index << 4)) & 0xFFFF);
 }
+/* simplify calculations */
+inline unsigned int get_row_0(unsigned long int game_board) {
+    return (game_board&0xFFFF);
+}
+inline unsigned int get_row_1(unsigned long int game_board) {
+    return (game_board>>16&0xFFFF);
+}
+inline unsigned int get_row_2(unsigned long int game_board) {
+    return (game_board>>32&0xFFFF);
+}
+inline unsigned int get_row_3(unsigned long int game_board) {
+    return (game_board>>48&0xFFFF);
+}
 /* Return the column of index */
 inline unsigned int get_column(unsigned long int game_board, unsigned long int index) {
     return (get_block(game_board, 0, index) + (get_block(game_board, 1, index) << 4) +
             (get_block(game_board, 2, index) << 8) + (get_block(game_board, 3, index) << 12));
+}
+inline unsigned int get_column_0(unsigned long int game_board) {
+    return (game_board&0xF)+(game_board>>12&0xF0)+(game_board>>24&0xF00)+(game_board>>36&0xF000);
+}
+inline unsigned int get_column_1(unsigned long int game_board) {
+    return (game_board>>4&0xF)+(game_board>>16&0xF0)+(game_board>>28&0xF00)+(game_board>>40&0xF000);
+}
+inline unsigned int get_column_2(unsigned long int game_board) {
+    return (game_board>>8&0xF)+(game_board>>20&0xF0)+(game_board>>32&0xF00)+(game_board>>44&0xF000);
+}
+inline unsigned int get_column_3(unsigned long int game_board) {
+    return (game_board>>12&0xF)+(game_board>>24&0xF0)+(game_board>>36&0xF00)+(game_board>>48&0xF000);
 }
 /* Return the block of row i and column j */
 inline unsigned char get_block(unsigned long int game_board, unsigned long int i, unsigned long int j) {
@@ -580,50 +605,50 @@ void init_potential_merge_table() {
 int evaluate_0(unsigned long int game_board) {
     int max_score = MIN_SCORE;
     int score = 0;
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[4][get_column(game_board, 0)];
-    score += _global_evaluation_table[5][get_column(game_board, 1)];
-    score += _global_evaluation_table[6][get_column(game_board, 2)];
-    score += _global_evaluation_table[7][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[4][get_column_0(game_board)];
+    score += _global_evaluation_table[5][get_column_1(game_board)];
+    score += _global_evaluation_table[6][get_column_2(game_board)];
+    score += _global_evaluation_table[7][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     rotate(&game_board);
     score = 0;
     
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[4][get_column(game_board, 0)];
-    score += _global_evaluation_table[5][get_column(game_board, 1)];
-    score += _global_evaluation_table[6][get_column(game_board, 2)];
-    score += _global_evaluation_table[7][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[4][get_column_0(game_board)];
+    score += _global_evaluation_table[5][get_column_1(game_board)];
+    score += _global_evaluation_table[6][get_column_2(game_board)];
+    score += _global_evaluation_table[7][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     rotate(&game_board);
     score = 0;
     
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[4][get_column(game_board, 0)];
-    score += _global_evaluation_table[5][get_column(game_board, 1)];
-    score += _global_evaluation_table[6][get_column(game_board, 2)];
-    score += _global_evaluation_table[7][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[4][get_column_0(game_board)];
+    score += _global_evaluation_table[5][get_column_1(game_board)];
+    score += _global_evaluation_table[6][get_column_2(game_board)];
+    score += _global_evaluation_table[7][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     rotate(&game_board);
     score = 0;
     
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[4][get_column(game_board, 0)];
-    score += _global_evaluation_table[5][get_column(game_board, 1)];
-    score += _global_evaluation_table[6][get_column(game_board, 2)];
-    score += _global_evaluation_table[7][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[4][get_column_0(game_board)];
+    score += _global_evaluation_table[5][get_column_1(game_board)];
+    score += _global_evaluation_table[6][get_column_2(game_board)];
+    score += _global_evaluation_table[7][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     
     return max_score;
@@ -633,50 +658,50 @@ int evaluate_0(unsigned long int game_board) {
 int evaluate_1(unsigned long int game_board) {
     int max_score = MIN_SCORE;
     int score = 0;
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[4][get_column(game_board, 0)];
-    score += _global_evaluation_table[8][get_column(game_board, 1)];
-    score += _global_evaluation_table[9][get_column(game_board, 2)];
-    score += _global_evaluation_table[10][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[4][get_column_0(game_board)];
+    score += _global_evaluation_table[8][get_column_1(game_board)];
+    score += _global_evaluation_table[9][get_column_2(game_board)];
+    score += _global_evaluation_table[10][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     rotate(&game_board);
     score = 0;
     
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[4][get_column(game_board, 0)];
-    score += _global_evaluation_table[8][get_column(game_board, 1)];
-    score += _global_evaluation_table[9][get_column(game_board, 2)];
-    score += _global_evaluation_table[10][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[4][get_column_0(game_board)];
+    score += _global_evaluation_table[8][get_column_1(game_board)];
+    score += _global_evaluation_table[9][get_column_2(game_board)];
+    score += _global_evaluation_table[10][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     rotate(&game_board);
     score = 0;
     
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[4][get_column(game_board, 0)];
-    score += _global_evaluation_table[8][get_column(game_board, 1)];
-    score += _global_evaluation_table[9][get_column(game_board, 2)];
-    score += _global_evaluation_table[10][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[4][get_column_0(game_board)];
+    score += _global_evaluation_table[8][get_column_1(game_board)];
+    score += _global_evaluation_table[9][get_column_2(game_board)];
+    score += _global_evaluation_table[10][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     rotate(&game_board);
     score = 0;
     
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[4][get_column(game_board, 0)];
-    score += _global_evaluation_table[8][get_column(game_board, 1)];
-    score += _global_evaluation_table[9][get_column(game_board, 2)];
-    score += _global_evaluation_table[10][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[4][get_column_0(game_board)];
+    score += _global_evaluation_table[8][get_column_1(game_board)];
+    score += _global_evaluation_table[9][get_column_2(game_board)];
+    score += _global_evaluation_table[10][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     
     return max_score;
@@ -698,50 +723,50 @@ int evaluate_1(unsigned long int game_board) {
 int evaluate_2(unsigned long int game_board) {
     int max_score = MIN_SCORE;
     int score = 0;
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[11][get_column(game_board, 0)];
-    score += _global_evaluation_table[12][get_column(game_board, 1)];
-    score += _global_evaluation_table[6][get_column(game_board, 2)];
-    score += _global_evaluation_table[7][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[11][get_column_0(game_board)];
+    score += _global_evaluation_table[12][get_column_1(game_board)];
+    score += _global_evaluation_table[6][get_column_2(game_board)];
+    score += _global_evaluation_table[7][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     rotate(&game_board);
     score = 0;
     
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[11][get_column(game_board, 0)];
-    score += _global_evaluation_table[12][get_column(game_board, 1)];
-    score += _global_evaluation_table[6][get_column(game_board, 2)];
-    score += _global_evaluation_table[7][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[11][get_column_0(game_board)];
+    score += _global_evaluation_table[12][get_column_1(game_board)];
+    score += _global_evaluation_table[6][get_column_2(game_board)];
+    score += _global_evaluation_table[7][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     rotate(&game_board);
     score = 0;
     
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[11][get_column(game_board, 0)];
-    score += _global_evaluation_table[12][get_column(game_board, 1)];
-    score += _global_evaluation_table[6][get_column(game_board, 2)];
-    score += _global_evaluation_table[7][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[11][get_column_0(game_board)];
+    score += _global_evaluation_table[12][get_column_1(game_board)];
+    score += _global_evaluation_table[6][get_column_2(game_board)];
+    score += _global_evaluation_table[7][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     rotate(&game_board);
     score = 0;
     
-    score += _global_evaluation_table[0][get_row(game_board, 0)];
-    score += _global_evaluation_table[1][get_row(game_board, 1)];
-    score += _global_evaluation_table[2][get_row(game_board, 2)];
-    score += _global_evaluation_table[3][get_row(game_board, 3)];
-    score += _global_evaluation_table[11][get_column(game_board, 0)];
-    score += _global_evaluation_table[12][get_column(game_board, 1)];
-    score += _global_evaluation_table[6][get_column(game_board, 2)];
-    score += _global_evaluation_table[7][get_column(game_board, 3)];
+    score += _global_evaluation_table[0][get_row_0(game_board)];
+    score += _global_evaluation_table[1][get_row_1(game_board)];
+    score += _global_evaluation_table[2][get_row_2(game_board)];
+    score += _global_evaluation_table[3][get_row_3(game_board)];
+    score += _global_evaluation_table[11][get_column_0(game_board)];
+    score += _global_evaluation_table[12][get_column_1(game_board)];
+    score += _global_evaluation_table[6][get_column_2(game_board)];
+    score += _global_evaluation_table[7][get_column_3(game_board)];
     max_score = score > max_score ? score : max_score;
     
     return max_score;
@@ -756,8 +781,8 @@ int open_square(unsigned long int game_board) {
         ret += (board == 0 ? 1 : 0);
     }
     /* consider the potential merge squares */
-    int row_potential_merge = (_potential_merge_table[1][get_row(game_board, 0)] + _potential_merge_table[1][get_row(game_board, 1)] + _potential_merge_table[1][get_row(game_board, 2)] + _potential_merge_table[1][get_row(game_board, 3)]);
-    int column_potential_merge = (_potential_merge_table[1][get_column(game_board, 0)] + _potential_merge_table[1][get_column(game_board, 1)] + _potential_merge_table[1][get_column(game_board, 2)] + _potential_merge_table[1][get_column(game_board, 3)]);
+    int row_potential_merge = (_potential_merge_table[1][get_row_0(game_board)] + _potential_merge_table[1][get_row_1(game_board)] + _potential_merge_table[1][get_row_2(game_board)] + _potential_merge_table[1][get_row_3(game_board)]);
+    int column_potential_merge = (_potential_merge_table[1][get_column_0(game_board)] + _potential_merge_table[1][get_column_1(game_board)] + _potential_merge_table[1][get_column_2(game_board)] + _potential_merge_table[1][get_column_3(game_board)]);
     ret += (row_potential_merge > column_potential_merge ? row_potential_merge : column_potential_merge);
     return ret;
 }
