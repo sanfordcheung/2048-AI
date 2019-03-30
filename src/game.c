@@ -277,16 +277,16 @@ inline void set_block(unsigned long int* game_board, unsigned long int i, unsign
     *game_board += (pow << (off_set));
 }
 /* Return the row of index */
-inline int get_row(unsigned long int game_board, unsigned long int index) {
+inline unsigned int get_row(unsigned long int game_board, unsigned long int index) {
     return ((game_board >> (index << 4)) & 0xFFFF);
 }
 /* Return the column of index */
-inline int get_column(unsigned long int game_board, unsigned long int index) {
+inline unsigned int get_column(unsigned long int game_board, unsigned long int index) {
     return (get_block(game_board, 0, index) + (get_block(game_board, 1, index) << 4) +
             (get_block(game_board, 2, index) << 8) + (get_block(game_board, 3, index) << 12));
 }
 /* Return the block of row i and column j */
-inline char get_block(unsigned long int game_board, unsigned long int i, unsigned long int j) {
+inline unsigned char get_block(unsigned long int game_board, unsigned long int i, unsigned long int j) {
     return ((game_board >> ((j+(i<<2)) << 2)) & 0xF);
 }
 /* Reverse a row or column */

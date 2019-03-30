@@ -56,11 +56,11 @@ void rotate(unsigned long int *game_board);
 /* Reverse a row or column */
 void reverse(int *value);
 /* Return the row of index */
-int get_row(unsigned long int game_board, unsigned long int index);
+unsigned int get_row(unsigned long int game_board, unsigned long int index);
 /* Return the column of index */
-int get_column(unsigned long int game_board, unsigned long int index);
+unsigned int get_column(unsigned long int game_board, unsigned long int index);
 /* Return the block of row i and column j */
-char get_block(unsigned long int game_board, unsigned long int i, unsigned long int j);
+unsigned char get_block(unsigned long int game_board, unsigned long int i, unsigned long int j);
 
 char expectimax_search(unsigned long int game_board);
 
